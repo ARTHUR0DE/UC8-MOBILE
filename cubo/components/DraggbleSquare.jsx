@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
   interpolate,
+  RotateInDownLeft,
 } from "react-native-reanimated";
 
 export default function DraggbleSquare(){
@@ -43,18 +44,42 @@ export default function DraggbleSquare(){
     const tapGesture = Gesture.Tap().onEnd(() => {
         backgroundColor.value = backgroundColor.value === "#3498db" ? "#e74c3c" : "#3498db"
     })
+//Fim do gesto TAP
+
+//inicio gesto pinça(zoom)
+
+const pinchGesture = Gesture.Pinch().onUpdate((event) => {
+    scale.value = interpolate(event.scale, [0.5, 3] [0.5, 3])
+} )
+//fim do gesto pinça
+
+//inicio do gesto rotação 
+const rotationGesture = Gesture.rotation().onUpdate((event) => {
+    rotation.value = event.rotation
+})
+
+
+
+
 
     const composedGesture = Gesture.Simultaneous(
-        Gesture.Exclusive(panGesture, tapGesture),
+        Gesture.Exclusive(panGesture, tapGesture), pinchGesture, rotationGesture
     );
     
     const animatedStyle = useAnimatedStyle(() => ({
         transform:[
             {translateX: translateX.value},
-            {translateY: translateY.value}
+            {translateY: translateY.value},
+
+            {scale: scale.value}
         ],
         backgroundColor: backgroundColor.value
     }));
+
+
+
+
+
 
     return(
         <GestureDetector gesture={composedGesture} >
