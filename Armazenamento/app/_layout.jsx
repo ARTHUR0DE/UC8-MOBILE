@@ -25,7 +25,7 @@ export default function App() {
   const [tempPin, setTempPin] = useState("");
   const [nota, setNota] = useState("");
   const [notas, setNotas] = useState([]);
-  const [editandoId, setEditandoId] = useState(null); // NOVO: controla o ID da nota em edição
+  const [editandoId, setEditandoId] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -58,26 +58,24 @@ export default function App() {
     }
   };
 
-  // NOVO: função para iniciar edição
   const editarNota = (notaObj) => {
     setNota(notaObj.text);
     setEditandoId(notaObj.id);
   };
 
-  // ALTERADO: função para adicionar ou salvar edição
   const addNota = () => {
     const text = nota.trim();
     if (!text) return;
 
     if (editandoId) {
-      // Atualiza nota existente
+      
       const atualizadas = notas.map((n) =>
         n.id === editandoId ? { ...n, text } : n
       );
       persistNotas(atualizadas);
-      setEditandoId(null); // Sai do modo edição
+      setEditandoId(null); 
     } else {
-      // Adiciona nova nota
+
       const nova = { id: Date.now().toString(), text };
       persistNotas([nova, ...notas]);
     }
