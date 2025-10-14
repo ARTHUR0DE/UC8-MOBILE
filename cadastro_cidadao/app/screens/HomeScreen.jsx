@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../../styles/colors";
 import styles from "../../styles/homeStyles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Background } from "@react-navigation/elements";
 
 export default function HomeScreen() {
   const nav = useNavigation();
